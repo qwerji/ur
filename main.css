@@ -58,19 +58,67 @@ body {
     width: 75px;
     height: 150px;
 }
-.roll {
+.button {
     display: block;
-    margin: 75px auto 0;
     width: 100px;
     height: 50px;
-    background: rgba(0,255,50,0.5);
     text-align: center;
     line-height: 50px;
     border: 1px solid rgba(0,0,0,0.5);
+    user-select: none;
 }
+    .roll {
+        margin: 110px auto 0;
+        background: rgba(0,230,30,0.5);
+    }
+    .reset {
+        margin: 20px auto 0;
+        background: rgba(230,0,30,0.5);
+    }
 .safe {
     background-image: url('./images/rosette.png');
-    background-color: rgba(0,255,50,0.5);
+    background-color: rgba(0,230,30,0.5);
+}
+
+.dice {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 30px 52px 30px;
+    border-color: transparent transparent #424242 transparent;
+}
+    .dice-pip {
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 0 5px 8.7px 5px;
+        border-color: transparent transparent #bbbbbb transparent;
+    }
+    .dice-pip.top {
+        transform: rotate(0deg)
+    }
+    .dice-pip.left {
+        transform: rotate(-120deg)
+    }
+    .dice-pip.right {
+        transform: rotate(120deg)
+    }
+
+.gameover {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 35%;
+    font-size: 100px;
+    color: rgba(0,250,50,1);
+    text-shadow: 0 0 5px black;
+    transition: 1s ease transform;
+    transform: translateY(-1000px);
+    z-index: 20;
+    cursor: default;
+    user-select: none;
 }
 
 .square:nth-of-type(9) {
@@ -102,3 +150,34 @@ body {
 .square:nth-of-type(19) {
     background-image: url('./images/abstract4.png');
 }
+
+.p1-display, .p2-display {
+    position: absolute;
+    top: 10px;
+    font-size: 30px;
+    text-shadow: 0 0 1px rgba(0,0,0,1);
+    user-select: none;
+    cursor: default;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    border-radius: 100px;
+    transition: 0.75s ease background;
+}
+
+.p1-display {
+    left: -155px;
+    color: steelblue;
+}
+    .p1-display.show {
+        background: gold;
+    }
+
+.p2-display {
+    left: 330px;
+    color: moccasin;
+}
+    .p2-display.show {
+        background: steelblue;
+    }

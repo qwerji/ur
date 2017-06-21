@@ -1,5 +1,7 @@
 const playArea = document.querySelector('.play-area'),
-    rollButton = document.querySelector('.roll')
+    rollButton = document.querySelector('.roll'),
+    resetButton = document.querySelector('.reset'),
+    gameoverDisplay = document.querySelector('.gameover')
 
 let turn = 'p2'
 
@@ -16,6 +18,12 @@ let scores = {
 
 const board = new Board()
 
+let dice = []
+
+for (let i = 1; i <= 4; i++) {
+    dice.push(new Dice(i))
+}
+
 const p1Pieces = []
 for (let i = 0; i < 7; i++) {
     p1Pieces.push(new Piece('p1',i))
@@ -31,15 +39,8 @@ const scorePiles = {
     p2: new ScorePile('p2')
 }
 
-rollButton.addEventListener('click', function() {
-    if (rolled) return
-    rolled = true
-    roll = H.randomInt(0,1) + H.randomInt(0,1) + H.randomInt(0,1) + H.randomInt(0,1)
-    this.textContent = roll
-    if (roll === 0) {
-        setTimeout(switchTurn,1500)
-    }
-})
+rollButton.addEventListener('click', rollDice)
+resetButton.addEventListener('click', reset)
 
 function switchTurn(reroll) {
     let bool = turn === 'p1'
@@ -51,21 +52,27 @@ function switchTurn(reroll) {
         p2Pieces.forEach(piece => piece.elt.classList.add('turn'))
         p1Pieces.forEach(piece => piece.elt.classList.remove('turn'))
         rollButton.textContent = 'P2 Roll'
+        board.p2Display.classList.add('show')
+        board.p1Display.classList.remove('show')
     } else {
         turn = 'p1'
         p1Pieces.forEach(piece => piece.elt.classList.add('turn'))
         p2Pieces.forEach(piece => piece.elt.classList.remove('turn'))
         rollButton.textContent = 'P1 Roll'
+        board.p2Display.classList.remove('show')
+        board.p1Display.classList.add('show')
     }
     rolled = false
 }
 switchTurn()
 
 function win(player) {
-    console.log(player + ' wins!')
+    gameoverDisplay.textContent = player.toUpperCase() + ' wins!'
+    gameoverDisplay.classList.add('fly-in')
 }
 
 function reset() {
+    gameoverDisplay.classList.remove('fly-in')
     turn = 'p2'
     switchTurn()
     scores = {
@@ -76,3 +83,9 @@ function reset() {
     p2Pieces.forEach(piece => piece.reset())
     squares.forEach(square => square.reset())
 }
+
+window.addEventListener('keyup', e => {
+    if (e.key === ' ') {
+        rollDice()
+    }
+})

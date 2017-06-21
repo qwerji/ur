@@ -1,5 +1,5 @@
 .piece {
-    transition: 0.5s ease top, 0.5s ease left;
+    transition: 0.4s ease top, 0.4s ease left;
 }
     .piece.turn {
         cursor: pointer;
@@ -16,10 +16,24 @@
 .square {
     transition: 0.2s ease filter;
 }
-.roll {
+.button {
     transition: 0.2s ease box-shadow;
     cursor: pointer;
 }
-.roll:hover {
+.button:hover {
     box-shadow: 0px 0px 3px rgba(0,0,0,0.5) inset;
+}
+.dice-pip {
+    transition: 0.1s linear opacity;
+}
+.dice-pip.hidden {
+    opacity: 0;
+}
+.dice.spin {
+    transition: 1s ease-out transform;
+    transform-origin: 50% 70%;
+    transform: rotate(1080deg);
+}
+.fly-in {
+    transform: translateY(0);
 }

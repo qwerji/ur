@@ -72,10 +72,11 @@ Piece.prototype.reset = function() {
     this.elt.style.left = this.leftStart + 'px'
     this.elt.style.top = this.topStart + 'px'
     this.square = null
+    this.currentSquare = null
 }
 
 Piece.prototype.cannotMoveTo = function(square) {
-    if ((roll === 0) || !square) return true
+    if ((roll === 0) || !square || this.scored) return true
     if ((this.player === turn) && rolled) {
         if (square.piece) {
             if (square.piece.player !== this.player) {
@@ -112,6 +113,8 @@ Piece.prototype.traverse = function(target) {
     } else {
         this.currentSquare = this.currentSquare.next
     }
-    this.elt.addEventListener('transitionend', this.traverse.bind(this, target), {once:true})
-    this.currentSquare.setPiecePosition(this)
+    setTimeout((() => {
+        this.currentSquare.setPiecePosition(this)
+        this.elt.addEventListener('transitionend', this.traverse.bind(this, target), {once:true})
+    }).bind(this),0)
 }
