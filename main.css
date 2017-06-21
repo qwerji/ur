@@ -1,0 +1,104 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Monaco, monospace;
+}
+body {
+    background: mintcream;
+}
+.play-area {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+.piece {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border-radius: 200px;
+    border: 1px solid rgba(0,0,0,0.2);
+    box-shadow: 1px -1px 1px rgba(0,0,0,0.5);
+    z-index: 4;
+}
+    .p1 {
+        background: steelblue;
+    }
+    .p2 {
+        background: moccasin;
+    }
+.pip {
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-radius: 20px;
+    box-shadow: 1px -1px 1px rgba(0,0,0,0.2) inset;
+}
+    .p1 .pip {
+        background: gold;
+    }
+    .p2 .pip {
+        background: steelblue;
+    }
+.board {
+    position: relative;
+    width: 225px;
+    height: 600px;
+    margin: 50px auto 0;
+}
+.square {
+    position: absolute;
+    width: 74px;
+    height: 74px;
+    background: rgba(0,200,255,0.5);
+    background-size: 75px auto;
+    border: 1px solid slategray;
+}
+.score-pile {
+    position: absolute;
+    width: 75px;
+    height: 150px;
+}
+.roll {
+    display: block;
+    margin: 75px auto 0;
+    width: 100px;
+    height: 50px;
+    background: rgba(0,255,50,0.5);
+    text-align: center;
+    line-height: 50px;
+    border: 1px solid rgba(0,0,0,0.5);
+}
+.safe {
+    background-image: url('./images/rosette.png');
+    background-color: rgba(0,255,50,0.5);
+}
+
+.square:nth-of-type(9) {
+    background-image: url('./images/abstract3.png');
+}
+
+.square:nth-of-type(1),
+.square:nth-of-type(3),
+.square:nth-of-type(5),
+.square:nth-of-type(7),
+.square:nth-of-type(15) {
+    background-image: url('./images/abstract1.png');
+}
+
+.square:nth-of-type(2),
+.square:nth-of-type(6),
+.square:nth-of-type(10),
+.square:nth-of-type(13),
+.square:nth-of-type(16) {
+    background-image: url('./images/abstract2.png');
+}
+
+.square:nth-of-type(11),
+.square:nth-of-type(14) {
+    background-image: url('./images/abstract5.png');
+}
+
+.square:nth-of-type(17),
+.square:nth-of-type(19) {
+    background-image: url('./images/abstract4.png');
+}
