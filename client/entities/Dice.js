@@ -117,7 +117,6 @@ function setRollButtonText(text,changeTurn) {
         rollButton.textContent = roll
     }
     if (((roll === 0) || changeTurn) && !switched) {
-        console.log('yo')
         switched = true
         setTimeout(() => { switchTurn() },1500)
     }
