@@ -42,7 +42,7 @@ function Piece(player,i) {
 }
 
 Piece.prototype.showMove = function(e, remote) {
-    if (!myTurn() && !remote) return
+    if (!myTurn() && !remote && socket) return
     squares.forEach(square => square.elt.classList.remove('select'))
     scorePiles.p1.elt.classList.remove('select')
     scorePiles.p2.elt.classList.remove('select')
