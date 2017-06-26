@@ -68,7 +68,6 @@ Piece.prototype.move = function(e, remote) {
     console.log('socket:',!!socket)
     console.log('myTurn:',myTurn())
     console.log('not remote:',!remote)
-    if (!myTurn()) return
     const square = getSquare(this.player,this.square)
     if (this.cannotMoveTo(square)) return
     if (socket && myTurn() && !remote) {
