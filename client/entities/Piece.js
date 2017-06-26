@@ -56,6 +56,7 @@ Piece.prototype.showMove = function(e, remote) {
             idx = p2Pieces.indexOf(this)
         }
         socket.emit('show-move', idx)
+        console.log('sending show')
     }
     if (!square.piece ||
         ((square.piece.player !== this.player) && !square.safe)) {

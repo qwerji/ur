@@ -41,6 +41,7 @@ function connect(opponent) {
         } else {
             p2Pieces[pieceIdx].showMove('',true)
         }
+        console.log('recieving show')
     })
 
     socket.on('hide-move', () => hideMove('',true))
