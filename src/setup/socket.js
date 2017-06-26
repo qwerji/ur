@@ -1,12 +1,12 @@
-let socket
-let me
-let opponentRematch
+import { globals, status, reset, hideMove, p1Pieces, p2Pieces } from './game.js'
+import { rollDice } from './../entities/Dice.js'
 
 function connect(opponent) {
+    globals.socket = io()
+    const socket = globals.socket
 
     let ID
 
-    socket = io()
     socket.on('connection', id => {
         status(`Connected! ID: ${id}`)
         ID = id
@@ -14,9 +14,9 @@ function connect(opponent) {
     socket.emit('challenge', opponent)
     
     socket.on('start', res => {
-        me = res.me
+        globals.me = res.me
         reset()
-        if (me === 'p2') {
+        if (globals.me === 'p2') {
             status("Game Started: Opponent's Turn")
         } else {
             status("Game Started: Your Turn")
@@ -28,7 +28,7 @@ function connect(opponent) {
     })
 
     socket.on('move', pieceIdx => {
-        if (me === 'p2') {
+        if (globals.me === 'p2') {
             p1Pieces[pieceIdx].move('',true)
         } else {
             p2Pieces[pieceIdx].move('',true)
@@ -36,7 +36,7 @@ function connect(opponent) {
     })
 
     socket.on('show-move', pieceIdx => {
-        if (me === 'p2') {
+        if (globals.me === 'p2') {
             p1Pieces[pieceIdx].showMove('',true)
         } else {
             p2Pieces[pieceIdx].showMove('',true)
@@ -46,12 +46,12 @@ function connect(opponent) {
     socket.on('hide-move', () => hideMove('',true))
 
     socket.on('rematch', () => {
-        opponentRematch = true
+        globals.opponentRematch = true
         status('Your opponent wants a rematch.')
     })
 
     socket.on('accept-rematch', () => {
-        opponentRematch = true
+        globals.opponentRematch = true
         rematch(true)
     })
 
@@ -59,20 +59,20 @@ function connect(opponent) {
         status('Your opponent has disconnected.')
         if (socket) {
             socket.disconnect()
-            socket = null
+            globals.socket = null
         }
         reset()
     })
 }
 
 function rematch(remote) {
-    if (opponentRematch) {
+    if (globals.opponentRematch) {
         reset()
-        if (me === 'p2') {
-            me = 'p1'
+        if (globals.me === 'p2') {
+            globals.me = 'p1'
             status("Game Started: Your Turn")
         } else {
-            me = 'p2'
+            globals.me = 'p2'
             status("Game Started: Opponent's Turn")
         }
         if (!remote) socket.emit('accept-rematch')
@@ -80,3 +80,5 @@ function rematch(remote) {
         socket.emit('rematch')
     }
 }
+
+export { connect }

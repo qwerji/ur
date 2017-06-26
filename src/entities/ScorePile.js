@@ -1,3 +1,5 @@
+import { board, win } from './../setup/game.js'
+
 function ScorePile(player) {
     this.player = player
 
@@ -29,3 +31,5 @@ ScorePile.prototype.add = function(piece) {
         win(piece.player)
     }
 }
+
+export { ScorePile }

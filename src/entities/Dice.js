@@ -1,3 +1,6 @@
+import { board, globals, myTurn, diceValues, dice, hasValidMoves, rollButton, switchTurn } from './../setup/game.js'
+import { getSquare } from './../setup/getSquare.js'
+
 function Dice(i) {
     this.elt = document.createElement('div')
     this.elt.classList.add('dice')
@@ -35,14 +38,14 @@ function Dice(i) {
 
 Dice.prototype.roll = function(diceVal) {
     if (diceVal === undefined) diceVal = H.randomInt(0,1)
-    diceValues.push(diceVal)
+    globals.diceValues.push(diceVal)
     diceStates[diceVal].bind(this)()
     this.elt.classList.add('spin')
     function transitionfunc(e) {
         if (e.srcElement.classList.contains('dice-pip')) return
         this.classList.remove('spin')
         this.removeEventListener('transitionend', transitionfunc)
-        if (!hasValidMoves() && (roll !== 0)) {
+        if (!hasValidMoves() && (globals.roll !== 0)) {
             setRollButtonText('No Moves',true)
         } else {
             setRollButtonText()
@@ -96,28 +99,28 @@ const diceStates = {
 }
 
 function rollDice(vals) {
-    if (rolled || (!myTurn() && !vals)) return
-    switched = false
+    if (globals.rolled || (!myTurn() && !vals)) return
+    globals.switched = false
     if (!vals) vals = []
-    diceValues = []
-    rolled = true
-    roll = 0
-    dice.forEach((die,i) => roll += die.roll(vals[i]))
-    if (socket && myTurn()) {
-        socket.emit('roll', diceValues)
+    globals.diceValues = []
+    globals.rolled = true
+    globals.roll = 0
+    dice.forEach((die,i) => globals.roll += die.roll(vals[i]))
+    if (globals.socket && myTurn()) {
+        globals.socket.emit('roll', globals.diceValues)
     }
 }
-
-let switched = false
 
 function setRollButtonText(text,changeTurn) {
     if (text) {
         rollButton.textContent = text
     } else {
-        rollButton.textContent = roll
+        rollButton.textContent = globals.roll
     }
-    if (((roll === 0) || changeTurn) && !switched) {
-        switched = true
+    if (((globals.roll === 0) || changeTurn) && !globals.switched) {
+        globals.switched = true
         setTimeout(() => { switchTurn() },1500)
     }
 }
+
+export { Dice, rollDice }

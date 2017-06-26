@@ -1,4 +1,4 @@
-pipLocations = [
+export const pipLocations = [
     {x: 10, y:10},
     {x: 10, y:35},
     {x: 22, y:22},

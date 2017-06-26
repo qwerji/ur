@@ -1,3 +1,5 @@
+import { board, globals, scorePiles } from './game.js'
+
 function getSquare(player, square) {
     let i
     if (!square) {
@@ -6,7 +8,7 @@ function getSquare(player, square) {
     } else {
         i = 0
     }
-    while (i < roll) {
+    while (i < globals.roll) {
         if (!square.next) {
             if (i === roll-1) return scorePiles[player]
             return null
@@ -20,3 +22,5 @@ function getSquare(player, square) {
     }
     return square
 }
+
+export { getSquare }

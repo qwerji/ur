@@ -1,3 +1,5 @@
+import { Square } from './../entities/Square.js'
+
 function constructLL() {
     // Construct the linked list board
 
@@ -93,3 +95,5 @@ function constructLL() {
     w8.next['p1'] = e1p1
     w8.next['p2'] = e1p2
 }
+
+export { constructLL }

@@ -1,3 +1,6 @@
+import { constructLL } from './../setup/constructLL.js'
+import { playArea } from './../setup/game.js'
+
 function Board() {
     this.p1start = null
     this.p2start = null
@@ -24,3 +27,5 @@ function Board() {
 
     playArea.appendChild(this.elt)
 }
+
+export { Board }

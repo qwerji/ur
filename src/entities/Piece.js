@@ -1,3 +1,7 @@
+import { pipLocations } from './../setup/pips.js'
+import { hideMove, board, myTurn, squares, scorePiles, globals, switchTurn, p1Pieces, p2Pieces } from './../setup/game.js'
+import { getSquare } from './../setup/getSquare.js'
+
 function Piece(player,i) {
     this.offset = 12
 
@@ -42,20 +46,20 @@ function Piece(player,i) {
 }
 
 Piece.prototype.showMove = function(e, remote) {
-    if (!myTurn() && !remote && socket) return
+    if (!myTurn() && !remote && globals.socket) return
     squares.forEach(square => square.elt.classList.remove('select'))
     scorePiles.p1.elt.classList.remove('select')
     scorePiles.p2.elt.classList.remove('select')
     const square = getSquare(this.player,this.square)
     if (this.cannotMoveTo(square)) return
-    if (socket && myTurn()) {
+    if (globals.socket && myTurn()) {
         let idx
         if (this.player === 'p1') {
             idx = p1Pieces.indexOf(this)
         } else {
             idx = p2Pieces.indexOf(this)
         }
-        socket.emit('show-move', idx)
+        globals.socket.emit('show-move', idx)
     }
     if (!square.piece ||
         ((square.piece.player !== this.player) && !square.safe)) {
@@ -66,15 +70,15 @@ Piece.prototype.showMove = function(e, remote) {
 Piece.prototype.move = function(e, remote) {
     const square = getSquare(this.player,this.square)
     if (this.cannotMoveTo(square)) return
-    moved = true
-    if (socket && myTurn() && !remote) {
+    globals.moved = true
+    if (globals.socket && myTurn() && !remote) {
         let idx
         if (this.player === 'p1') {
             idx = p1Pieces.indexOf(this)
         } else {
             idx = p2Pieces.indexOf(this)
         }
-        socket.emit('move', idx)
+        globals.socket.emit('move', idx)
     }
     this.elt.style.zIndex = 5
     if (!this.currentSquare) {
@@ -91,8 +95,8 @@ Piece.prototype.reset = function() {
 }
 
 Piece.prototype.cannotMoveTo = function(square) {
-    if ((roll === 0) || !square || this.scored || moved) return true
-    if ((this.player === turn) && rolled) {
+    if ((globals.roll === 0) || !square || this.scored || globals.moved) return true
+    if ((this.player === globals.turn) && globals.rolled) {
         if (square.piece) {
             if (square.piece.player !== this.player) {
                 if (!square.safe) {
@@ -133,3 +137,5 @@ Piece.prototype.traverse = function(target) {
         this.elt.addEventListener('transitionend', this.traverse.bind(this, target), {once:true})
     }).bind(this),0)
 }
+
+export { Piece }

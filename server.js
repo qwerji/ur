@@ -5,7 +5,7 @@ const express = require('express'),
     socketModule = require('./server/socketModule.js'),
     port = 8000
 
-app.use(express.static(path.join(__dirname, '/client')))
+app.use(express.static(path.join(__dirname, '/dist')))
 
 const server = app.listen(port, () => console.log(`Listening on ${port}`)),
     io = socket(server)

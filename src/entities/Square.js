@@ -1,3 +1,5 @@
+import { squares } from './../setup/game.js'
+
 function Square(board,type,safe) {
     this.type = type
     this.safe = !!safe
@@ -41,3 +43,5 @@ Square.prototype.setPiecePosition = function(piece) {
 Square.prototype.reset = function() {
     this.piece = null
 }
+
+export { Square }
