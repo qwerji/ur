@@ -2,7 +2,7 @@ function Dice(i) {
     this.elt = document.createElement('div')
     this.elt.classList.add('dice')
 
-    this.elt.style.top = 625 + 'px'
+    this.elt.style.top = 620 + 'px'
     this.elt.style.left = ((75 * i)-104) + 'px'
 
     this.pips = []
@@ -102,13 +102,20 @@ function rollDice(vals) {
     if (socket && myTurn()) {
         socket.emit('roll', diceValues)
     }
+    if (!hasValidMoves() && (roll !== 0)) {
+        setRollButtonText('No Valid Moves',true)
+    }
 }
 
 let switched = false
 
-function setRollButtonText() {
-    rollButton.textContent = roll
-    if ((roll === 0) && !switched) {
+function setRollButtonText(text,changeTurn) {
+    if (text) {
+        rollButton.textContent = text
+    } else {
+        rollButton.textContent = roll
+    }
+    if (((roll === 0) && !switched) || changeTurn) {
         switched = true
         setTimeout(() => { switchTurn() },1500)
     }

@@ -12,6 +12,8 @@ let roll = 0
 
 let rolled = false
 
+let moved = false
+
 let squares = []
 
 let diceValues = []
@@ -82,6 +84,7 @@ function switchTurn(reroll) {
         board.p1Display.classList.add('show')
     }
     rolled = false
+    moved = false
     if (socket) {
         if (turn === me) {
             status('Your Turn')
@@ -150,6 +153,21 @@ function hideMove(e,remote) {
     if (socket && !remote) {
         socket.emit('hide-move')
     }
+}
+
+function hasValidMoves() {
+    let bool = false
+    if (turn === 'p1') {
+        p1Pieces.forEach(piece => {
+            if (getSquare(turn,piece.square)) bool = true
+        })
+    } else {
+        p2Pieces.forEach(piece => {
+            if (getSquare(turn,piece.square)) bool = true
+        })
+    }
+    hideMove('',true)
+    return bool
 }
 
 function myTurn() {

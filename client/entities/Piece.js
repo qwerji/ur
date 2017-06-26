@@ -56,7 +56,6 @@ Piece.prototype.showMove = function(e, remote) {
             idx = p2Pieces.indexOf(this)
         }
         socket.emit('show-move', idx)
-        console.log('sending show')
     }
     if (!square.piece ||
         ((square.piece.player !== this.player) && !square.safe)) {
@@ -65,9 +64,6 @@ Piece.prototype.showMove = function(e, remote) {
 }
 
 Piece.prototype.move = function(e, remote) {
-    console.log('socket:',!!socket)
-    console.log('myTurn:',myTurn())
-    console.log('not remote:',!remote)
     const square = getSquare(this.player,this.square)
     if (this.cannotMoveTo(square)) return
     if (socket && myTurn() && !remote) {
@@ -77,7 +73,6 @@ Piece.prototype.move = function(e, remote) {
         } else {
             idx = p2Pieces.indexOf(this)
         }
-        console.log('sending move')
         socket.emit('move', idx)
     }
     this.elt.style.zIndex = 5
@@ -85,6 +80,7 @@ Piece.prototype.move = function(e, remote) {
         this.currentSquare = {next: board[this.player + 'start']}
     }
     this.traverse(square)
+    moved = true
 }
 
 Piece.prototype.reset = function() {
@@ -95,7 +91,7 @@ Piece.prototype.reset = function() {
 }
 
 Piece.prototype.cannotMoveTo = function(square) {
-    if ((roll === 0) || !square || this.scored) return true
+    if ((roll === 0) || !square || this.scored || moved) return true
     if ((this.player === turn) && rolled) {
         if (square.piece) {
             if (square.piece.player !== this.player) {
