@@ -65,10 +65,10 @@ Piece.prototype.showMove = function(e, remote) {
 }
 
 Piece.prototype.move = function(e, remote) {
-    if (!myTurn() && !remote) return
+    if (!myTurn()) return
     const square = getSquare(this.player,this.square)
     if (this.cannotMoveTo(square)) return
-    if (socket && myTurn()) {
+    if (socket && myTurn() && !remote) {
         let idx
         if (this.player === 'p1') {
             idx = p1Pieces.indexOf(this)
