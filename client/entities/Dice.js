@@ -42,7 +42,11 @@ Dice.prototype.roll = function(diceVal) {
         if (e.srcElement.classList.contains('dice-pip')) return
         this.classList.remove('spin')
         this.removeEventListener('transitionend', transitionfunc)
-        setRollButtonText()
+        if (!hasValidMoves() && (roll !== 0)) {
+            setRollButtonText('No Moves',true)
+        } else {
+            setRollButtonText()
+        }
     }
     this.elt.addEventListener('transitionend', transitionfunc)
     return diceVal
@@ -101,9 +105,6 @@ function rollDice(vals) {
     dice.forEach((die,i) => roll += die.roll(vals[i]))
     if (socket && myTurn()) {
         socket.emit('roll', diceValues)
-    }
-    if (!hasValidMoves() && (roll !== 0)) {
-        setRollButtonText('No Valid Moves',true)
     }
 }
 
