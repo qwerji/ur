@@ -75,6 +75,7 @@ Piece.prototype.move = function(e, remote) {
         } else {
             idx = p2Pieces.indexOf(this)
         }
+        console.log('sending move')
         socket.emit('move', idx)
     }
     this.elt.style.zIndex = 5
