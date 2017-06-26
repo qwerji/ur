@@ -66,6 +66,7 @@ Piece.prototype.showMove = function(e, remote) {
 Piece.prototype.move = function(e, remote) {
     const square = getSquare(this.player,this.square)
     if (this.cannotMoveTo(square)) return
+    moved = true
     if (socket && myTurn() && !remote) {
         let idx
         if (this.player === 'p1') {
@@ -80,7 +81,6 @@ Piece.prototype.move = function(e, remote) {
         this.currentSquare = {next: board[this.player + 'start']}
     }
     this.traverse(square)
-    moved = true
 }
 
 Piece.prototype.reset = function() {
