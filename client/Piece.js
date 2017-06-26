@@ -24,11 +24,7 @@ function Piece(player,i) {
 
     this.elt.addEventListener('mouseover', this.showMove.bind(this))
 
-    this.elt.addEventListener('mouseout', () => {
-        squares.forEach(square => square.elt.classList.remove('select'))
-        scorePiles.p1.elt.classList.remove('select')
-        scorePiles.p2.elt.classList.remove('select')
-    })
+    this.elt.addEventListener('mouseout', hideMove)
 
     if (this.player === 'p1') {
         this.leftStart = -this.offset-75
@@ -45,22 +41,41 @@ function Piece(player,i) {
     board.elt.appendChild(this.elt)
 }
 
-Piece.prototype.showMove = function() {
+Piece.prototype.showMove = function(e, remote) {
+    if (!myTurn() && !remote) return
     squares.forEach(square => square.elt.classList.remove('select'))
     scorePiles.p1.elt.classList.remove('select')
     scorePiles.p2.elt.classList.remove('select')
     const square = getSquare(this.player,this.square)
     if (this.cannotMoveTo(square)) return
-    if (!square.piece) {
-        square.elt.classList.add('select')
-    } else if ((square.piece.player !== this.player) && !square.safe) {
+    if (socket && myTurn()) {
+        let idx
+        if (this.player === 'p1') {
+            idx = p1Pieces.indexOf(this)
+        } else {
+            idx = p2Pieces.indexOf(this)
+        }
+        socket.emit('show-move', idx)
+    }
+    if (!square.piece ||
+        ((square.piece.player !== this.player) && !square.safe)) {
         square.elt.classList.add('select')
     }
 }
 
-Piece.prototype.move = function() {
+Piece.prototype.move = function(e, remote) {
+    if (!myTurn() && !remote) return
     const square = getSquare(this.player,this.square)
     if (this.cannotMoveTo(square)) return
+    if (socket && myTurn()) {
+        let idx
+        if (this.player === 'p1') {
+            idx = p1Pieces.indexOf(this)
+        } else {
+            idx = p2Pieces.indexOf(this)
+        }
+        socket.emit('move', idx)
+    }
     this.elt.style.zIndex = 5
     if (!this.currentSquare) {
         this.currentSquare = {next: board[this.player + 'start']}

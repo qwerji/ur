@@ -5,14 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Royal Game of Ur | (20 Squares)</title>
     <script src="http://helper.bentswanson.com/"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
     <link rel="stylesheet" href="main.css">
     <link rel="stylesheet" href="animations.css">
 </head>
 <body>
     <div class="play-area"></div>
+    <p class="status"></p>
     <p class="button roll">P1 Roll</p>
     <p class="button reset">Reset</p>
-    <h2 class="gameover">Winner</h2>
+    <p class="button connect">Connect</p>
+    <div class="gameover">
+        <h2>Winner</h2>
+        <p class="button rematch">Rematch?</p>
+    </div>
     <script src="pips.js"></script>
     <script src="constructLL.js"></script>
     <script src="getSquare.js"></script>
@@ -21,6 +27,7 @@
     <script src="Piece.js"></script>
     <script src="Square.js"></script>
     <script src="Board.js"></script>
+    <script src="socket.js"></script>
     <script src="game.js"></script>
 </body>
 </html>

@@ -33,8 +33,9 @@ function Dice(i) {
     board.elt.appendChild(this.elt)
 }
 
-Dice.prototype.roll = function() {
-    const diceVal = H.randomInt(0,1)
+Dice.prototype.roll = function(diceVal) {
+    if (diceVal === undefined) diceVal = H.randomInt(0,1)
+    diceValues.push(diceVal)
     diceStates[diceVal].bind(this)()
     this.elt.classList.add('spin')
     function transitionfunc(e) {
@@ -90,16 +91,25 @@ const diceStates = {
     }
 }
 
-function rollDice() {
-    if (rolled) return
+function rollDice(vals) {
+    if (rolled || (!myTurn() && !vals)) return
+    switched = false
+    if (!vals) vals = []
+    diceValues = []
     rolled = true
     roll = 0
-    dice.forEach(die => roll += die.roll())
+    dice.forEach((die,i) => roll += die.roll(vals[i]))
+    if (socket && myTurn()) {
+        socket.emit('roll', diceValues)
+    }
 }
+
+let switched = false
 
 function setRollButtonText() {
     rollButton.textContent = roll
-    if (roll === 0) {
-        setTimeout(switchTurn,1500)
+    if ((roll === 0) && !switched) {
+        switched = true
+        setTimeout(() => { switchTurn() },1500)
     }
 }
